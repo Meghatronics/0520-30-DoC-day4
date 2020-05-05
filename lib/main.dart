@@ -1,3 +1,4 @@
+import 'package:day4_30doc/pages/allnews.dart';
 import 'package:flutter/material.dart';
 import 'package:day4_30doc/pages/category_view.dart';
 import 'package:day4_30doc/pages/category_grid.dart';
@@ -13,10 +14,11 @@ class _NewsAppState extends State<NewsApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'Category View',
+      initialRoute: 'All News',
       routes: {
-        'Category View': (context) => CategoryView(),
+        'Category View': (context) => CategoryView('BROWSE'),
         'Category Grid': (context) => CategoryGrid(),
+        'All News':(context)=> AllNews(),
       },
     );
   }

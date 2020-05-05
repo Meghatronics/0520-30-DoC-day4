@@ -1,3 +1,4 @@
+import 'package:day4_30doc/pages/category_view.dart';
 import 'package:day4_30doc/util/objects.dart';
 import 'package:flutter/material.dart';
 import 'package:day4_30doc/util/constants.dart';
@@ -7,14 +8,14 @@ List<Widget> newsCards = [
   NewsScrollCardImage(),
   NewsScrollCard(),
   NewsScrollCardImage(),
+  NewsScrollCardImage(),
+  NewsScrollCardImage(),
   NewsScrollCard(),
   NewsScrollCard(),
+  NewsScrollCardImage(),
   NewsScrollCard(),
-  NewsScrollCard(),
-  NewsScrollCard(),
-  NewsScrollCard(),
-  NewsScrollCard(),
-  NewsScrollCard(),
+  NewsScrollCardImage(),
+  NewsScrollCardImage(),
 ];
 
 class NewsScrollCard extends StatelessWidget {
@@ -198,23 +199,19 @@ class CategoryBarItem extends StatelessWidget {
   final bool current;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        // Divider(
-        //   height: 40,
-        //   color: selected ? kThemeColor1 : kGreyIconColor,
-        // ),
-        Icon(
-          newsCategory.categoryIcon,
-          size: 28,
-          color: selected ? kThemeColor1 : kGreyIconColor,
-        ),
-        // Divider(
-        //   height: 40,
-        //   color: selected ? kThemeColor1 : kGreyIconColor,
-        // )
-      ],
+    return FlatButton(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+         
+          Icon(
+            newsCategory.categoryIcon,
+            size: 28,
+            color: selected ? kThemeColor1 : kGreyIconColor,
+          ),
+         
+        ],
+      ),
     );
   }
 }
@@ -227,7 +224,7 @@ class CategoryGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, 'Category View');
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryView(category.categoryName)));
       },
       child: Container(
         constraints: BoxConstraints.tightForFinite(width: 100, height: 100),

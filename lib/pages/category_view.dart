@@ -3,10 +3,8 @@ import 'package:day4_30doc/util/constants.dart';
 import 'package:day4_30doc/util/components.dart';
 
 class CategoryView extends StatelessWidget {
-  const CategoryView({
-    Key key,
-  }) : super(key: key);
-
+  const CategoryView(this.currentCategory);
+final String currentCategory;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,26 +20,34 @@ class CategoryView extends StatelessWidget {
               right: 0,
               height: kBrowseHeaderHeight,
               child: Container(
-                  alignment:
-                      Alignment.lerp(Alignment.topCenter, Alignment.center, 0.6),
-                  padding: EdgeInsets.only(top: 20),
-                  color: kThemeColor1,
-                  child: Text('BROWSE', style: kHeadingTextStyle),
-                ),
+                alignment:
+                    Alignment.lerp(Alignment.topCenter, Alignment.center, 0.6),
+                padding: EdgeInsets.only(top: 20),
+                color: kThemeColor1,
+                child: Text(currentCategory.toUpperCase(), style: kHeadingTextStyle),
+              ),
+            ),
+            Positioned(
+              top: 50,
+              left: 10,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, 'All News');
+                },
+                backgroundColor: kThemeColor1,
+                child: Icon(Icons.home, color: Colors.white),
+              ),
             ),
             Positioned(
               right: 0,
               top: 0,
               width: 40,
               height: kBrowseHeaderHeight,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, 'Category Grid');
-                },
+              child: RawMaterialButton(
+                highlightColor: kThemeColor1,
                 child: Container(
-                   alignment:
-                    Alignment.lerp(Alignment.topCenter, Alignment.center, 0.7),
-              
+                  alignment: Alignment.lerp(
+                      Alignment.topCenter, Alignment.center, 0.7),
                   color: Colors.white,
                   child: Icon(
                     Icons.apps,
@@ -49,6 +55,9 @@ class CategoryView extends StatelessWidget {
                     size: 30,
                   ),
                 ),
+                onPressed: () {
+                  Navigator.pushNamed(context, 'Category Grid');
+                },
               ),
             ),
             Positioned(

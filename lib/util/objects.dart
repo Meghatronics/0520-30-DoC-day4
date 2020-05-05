@@ -25,7 +25,7 @@ List<NewsCategory> newsCategories = [
     categoryIcon: Icons.supervisor_account,
   ),
   NewsCategory(
-    'Business',
+    'Education',
     categoryIcon: Icons.business_center,
   ),
   NewsCategory(
