@@ -13,4 +13,4 @@ Inspiration from Behance
 <img src="DemoImages/NewsCategoryView.jpg" width="200">
 
 ### Page showing all news category for selection
-<img src="DemoImages/AllNewsPage.jpg" width="200">
+<img src="DemoImages/NewsCategoryGrid.jpg" width="200">
