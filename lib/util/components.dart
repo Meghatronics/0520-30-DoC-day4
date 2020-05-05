@@ -200,6 +200,7 @@ class CategoryBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
+      onPressed: null,
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
