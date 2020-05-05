@@ -3,19 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:day4_30doc/util/constants.dart';
 import 'package:day4_30doc/util/components.dart';
 
-class AllNews extends StatelessWidget {
-  void load() async {
-    FeedManager.isLoading = true;
-    var newsList = await FeedManager.getNews();
-    
+class AllNews extends StatefulWidget {
+  @override
+  _AllNewsState createState() => _AllNewsState();
+}
 
+class _AllNewsState extends State<AllNews> {
+  bool succeed = true;
+void load()async{
+await FeedManager.getNews();
+setState(() {
+  succeed = false;
+});
+}
+
+  @override
+  void initState() {
+load();
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FeedManager.isLoading
-          ? Container(color: Colors.redAccent, width: 200, height: 200)
+      body: succeed
+          ? Center(
+              child:
+                  Container(color: Colors.redAccent, width: 200, height: 200))
           : Container(
               color: Color(0xffeeeeee),
               child: Stack(
@@ -83,7 +98,7 @@ class AllNews extends StatelessWidget {
                           ],
                         ),
                         child: ListView(
-                          children: newsCards,
+                          children: FeedManager.newsFeed(),
                         ),
                       ),
                     ),

@@ -1,3 +1,4 @@
+import 'package:day4_30doc/util/objects.dart';
 import 'package:flutter/material.dart';
 import 'package:day4_30doc/util/constants.dart';
 import 'package:day4_30doc/util/components.dart';
@@ -82,7 +83,7 @@ final String currentCategory;
                 ),
                 height: 700,
                 child: ListView(
-                  children: newsCards,
+                  children: FeedManager.newsFeed(),
                 ),
               ),
             ),

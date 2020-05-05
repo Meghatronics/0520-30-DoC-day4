@@ -3,25 +3,9 @@ import 'package:day4_30doc/util/objects.dart';
 import 'package:flutter/material.dart';
 import 'package:day4_30doc/util/constants.dart';
 
-List<Widget> newsCards = [
-  NewsScrollCard(),
-  NewsScrollCardImage(),
-  NewsScrollCard(),
-  NewsScrollCardImage(),
-  NewsScrollCardImage(),
-  NewsScrollCardImage(),
-  NewsScrollCard(),
-  NewsScrollCard(),
-  NewsScrollCardImage(),
-  NewsScrollCard(),
-  NewsScrollCardImage(),
-  NewsScrollCardImage(),
-];
-
 class NewsScrollCard extends StatelessWidget {
-//TODO Add Constructor to take News Object
-
-//TODO Create properties and fill them in build
+  NewsScrollCard(this.newsToShow);
+  final News newsToShow;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +28,7 @@ class NewsScrollCard extends StatelessWidget {
                 ),
                 SizedBox(width: 5),
                 Expanded(
-                    child: Text('Lorem ipsum dolor sit amet',
+                    child: Text(newsToShow.source?? 'Unspecified',
                         style: kNewsScrollCardReporterStyle)),
                 Icon(
                   Icons.share,
@@ -63,8 +47,7 @@ class NewsScrollCard extends StatelessWidget {
           SizedBox(height: 5),
           Expanded(
               flex: 3,
-              child: Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ullamcorper malesuada proin libero nunc consequat interdum. A pellentesque sit amet porttitor eget. Massa vitae tortor condimentum lacinia quis vel eros donec. Eget nunc lobortis mattis aliquam faucibus purus in massa tempor.',
+              child: Text(newsToShow.title,
                   maxLines: kNewsScrollCardHeadlineMaxLines,
                   overflow: kNewsScrollCardHeadlineOverflow,
                   style: kNewsScrollCardHeadlineStyle)),
@@ -74,7 +57,8 @@ class NewsScrollCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                    child: Text('19.03.2019', style: kNewsScrollCardDateStyle)),
+                    child: Text(newsToShow.publishDate,
+                        style: kNewsScrollCardDateStyle)),
                 IconCounter(
                   icon: Icons.view_headline,
                   count: 17,
@@ -97,6 +81,9 @@ class NewsScrollCard extends StatelessWidget {
 }
 
 class NewsScrollCardImage extends StatelessWidget {
+  NewsScrollCardImage(this.newsToShow);
+
+  final News newsToShow;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,15 +101,14 @@ class NewsScrollCardImage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://i.picsum.photos/id/340/200/300.jpg'),
+                  image: NetworkImage('${newsToShow.imageLink}'),
                 ),
               ),
             ),
           ),
           Expanded(
             flex: 3,
-            child: NewsScrollCard(),
+            child: NewsScrollCard(newsToShow),
           )
         ],
       ),
@@ -174,13 +160,12 @@ class _CategoryBarState extends State<CategoryBar> {
     for (int i = 0; i < newsCategories.length - 1; i++) {
       _categoriesList.add(Expanded(child: CategoryBarItem(newsCategories[i])));
     }
-_categoriesList[3] = Expanded(child: CategoryBarItem(newsCategories[3], current: true,));
 
     return Container(
-        child: Column(
-    children: _categoriesList,
-        ),
-      );
+      child: Column(
+        children: _categoriesList,
+      ),
+    );
   }
 }
 //Category Bar>
@@ -201,16 +186,14 @@ class CategoryBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: null,
-          child: Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-         
           Icon(
             newsCategory.categoryIcon,
             size: 28,
             color: selected ? kThemeColor1 : kGreyIconColor,
           ),
-         
         ],
       ),
     );
@@ -225,7 +208,10 @@ class CategoryGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryView(category.categoryName)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CategoryView(category.categoryName)));
       },
       child: Container(
         constraints: BoxConstraints.tightForFinite(width: 100, height: 100),
