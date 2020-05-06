@@ -148,17 +148,24 @@ class IconCounter extends StatelessWidget {
 
 //<Category Bar
 class CategoryBar extends StatefulWidget {
+  CategoryBar({@required this.currentCategory});
+  String currentCategory;
   @override
   _CategoryBarState createState() => _CategoryBarState();
 }
 
 class _CategoryBarState extends State<CategoryBar> {
+  
   List<Widget> _categoriesList = [];
   @override
   Widget build(BuildContext context) {
     _categoriesList.clear();
     for (int i = 0; i < newsCategories.length - 1; i++) {
+      if(widget.currentCategory != newsCategories[i].categoryParameter)
       _categoriesList.add(Expanded(child: CategoryBarItem(newsCategories[i])));
+    else
+          _categoriesList.add(Expanded(child: CategoryBarItem(newsCategories[i], current: true,)));
+
     }
 
     return Container(
@@ -185,7 +192,12 @@ class CategoryBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: null,
+      onPressed: () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CategoryView(newsCategory)));
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -211,7 +223,7 @@ class CategoryGridItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CategoryView(category.categoryName)));
+                builder: (context) => CategoryView(category)));
       },
       child: Container(
         constraints: BoxConstraints.tightForFinite(width: 100, height: 100),
@@ -223,12 +235,12 @@ class CategoryGridItem extends StatelessWidget {
             Icon(
               category.categoryIcon,
               size: 35,
-              color: kBlackGrey,
+              color: kThemeColor3,
             ),
             Text(
               category.categoryName,
               style: TextStyle(
-                color: kBlackGrey,
+                color: kThemeColor3,
                 fontWeight: FontWeight.w300,
                 fontSize: 17,
               ),

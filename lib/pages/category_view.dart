@@ -3,9 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:day4_30doc/util/constants.dart';
 import 'package:day4_30doc/util/components.dart';
 
-class CategoryView extends StatelessWidget {
+class CategoryView extends StatefulWidget {
   const CategoryView(this.currentCategory);
-final String currentCategory;
+  final NewsCategory currentCategory;
+
+  @override
+  _CategoryViewState createState() => _CategoryViewState();
+}
+
+class _CategoryViewState extends State<CategoryView> {
+  bool _succeed = false;
+  void load() async {
+    await FeedManager.getNews(category: widget.currentCategory);
+    setState(() {
+      _succeed = true;
+    });
+  }
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +45,8 @@ final String currentCategory;
                     Alignment.lerp(Alignment.topCenter, Alignment.center, 0.6),
                 padding: EdgeInsets.only(top: 20),
                 color: kThemeColor1,
-                child: Text(currentCategory.toUpperCase(), style: kHeadingTextStyle),
+                child: Text(widget.currentCategory.categoryName.toUpperCase(),
+                    style: kHeadingTextStyle),
               ),
             ),
             Positioned(
@@ -83,7 +104,14 @@ final String currentCategory;
                 ),
                 height: 700,
                 child: ListView(
-                  children: FeedManager.newsFeed(),
+                  children: _succeed
+                      ? FeedManager.newsFeed()
+                      : [
+                          Container(
+                            alignment: Alignment.center,
+                            child: Text('...', style: TextStyle(color: kThemeColor1, fontSize: 60)),
+                          )
+                        ],
                 ),
               ),
             ),
@@ -91,8 +119,10 @@ final String currentCategory;
               bottom: 0,
               left: 0,
               width: 57,
-              top: 130,
-              child: CategoryBar(),
+              top: 200,
+              child: CategoryBar(
+                currentCategory: widget.currentCategory.categoryParameter,
+              ),
             )
           ],
         ),

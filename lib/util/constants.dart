@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //API DETAILS
 String kApiKey = '&apiKey=53bd8f74b6194223ab315e288dca3037';
-String kApiCall ='https://newsapi.org/v2/top-headlines?country=ng';
+String kApiCall ='https://newsapi.org/v2/top-headlines?country=ng&pageSize=40';
 
 //
 const double kBrowseHeaderHeight = 200;

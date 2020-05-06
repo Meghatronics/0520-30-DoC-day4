@@ -31,26 +31,28 @@ List<NewsCategory> newsCategories = [
   ),
   NewsCategory(
     'Entertainment',
-    categoryIcon: Icons.music_note,
+    categoryIcon: Icons.live_tv,
   ),
   NewsCategory(
     'General',
-    categoryIcon: Icons.supervisor_account,
+    categoryIcon: Icons.donut_large,
   ),
   NewsCategory(
     'Health',
-    categoryIcon: Icons.business_center,
-  ),
-  NewsCategory(
-    'Science',
     categoryIcon: Icons.healing,
   ),
   NewsCategory(
+    'Science',
+    categoryIcon: Icons.pool,
+  ),
+  NewsCategory(
     'Sports',
+    categoryIcon: Icons.videogame_asset,
+
   ),
   NewsCategory(
     'Technology',
-    categoryIcon: Icons.settings_applications,
+    categoryIcon: Icons.memory,
   ),
 ];
 
@@ -61,6 +63,7 @@ class FeedManager {
   static Future<void> getNews({NewsCategory category}) async {
     http.Response response;
     var decodedResponse;
+    _compiledNewsList.clear();
     if (category != null)
       response = await http
           .get('$kApiCall&category=${category.categoryParameter}$kApiKey');
@@ -68,24 +71,24 @@ class FeedManager {
       response = await http.get('$kApiCall$kApiKey');
 
     if (response.statusCode == 200) {
-      decodedResponse = jsonDecode(response.body);
+      decodedResponse = jsonDecode(response.body)['articles'];
 
-      int count = decodedResponse['totalResults'];
+      int count = decodedResponse.length;
 
-      for (int i = 0; i < 20; i++) {
-        String source = decodedResponse['articles'][i]['source']['name'];
-        String author = decodedResponse['articles'][i]['author'];
-        String title = decodedResponse['articles'][i]['title'];
-        String imageLink = decodedResponse['articles'][i]['urlToImage'];
-        String date = decodedResponse['articles'][i]['publishedAt'];
-        //String publishDate =
+      for (int i = 0; i < count; i++) {
+        String source = decodedResponse[i]['source']['name'];
+        String author = decodedResponse[i]['author'];
+        String title = decodedResponse[i]['title'];
+        String imageLink = decodedResponse[i]['urlToImage'];
+        String date = decodedResponse[i]['publishedAt'];
+        String publishDate = date.substring(0, 10);
         //       '${date.day} - ${date.month} - ${date.year}, ${date.hour}:${date.minute}';
         _compiledNewsList.add(News(
           source: source,
           author: author,
           title: title,
           imageLink: imageLink,
-          publishDate: date,
+          publishDate: publishDate,
         ));
       }
 
@@ -98,7 +101,10 @@ class FeedManager {
   static List<Widget> newsFeed() {
     List<Widget> _newsCards = [];
     for (int i = 0; i < _compiledNewsList.length; i++) {
-      _newsCards.add(NewsScrollCard(_compiledNewsList[i]));
+      if (_compiledNewsList[i].imageLink != null)
+        _newsCards.add(NewsScrollCardImage(_compiledNewsList[i]));
+      else
+        _newsCards.add(NewsScrollCard(_compiledNewsList[i]));
     }
     return _newsCards;
   }
